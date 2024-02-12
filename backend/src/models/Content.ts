@@ -1,6 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Model, Schema, model } from "mongoose";
 
-const contentSchema =new mongoose.Schema({
+interface IContent {
+    title:String,
+    description:String,
+    img:String,
+    imgTitle:String,
+    imgThumb:String,
+    imgVertical:String,
+    trailer:String,
+    movie:String,
+    duration:String,
+    year:String,
+    limit:String,
+    genre:String,
+    isSeries:Boolean
+  }
+
+  type ContentModel = Model<IContent, {}>;
+
+const contentSchema =new Schema<IContent, ContentModel>({
     title:{type:String,required:true},
     description:{type:String,required:true,default:"no description"},
     img:{type:String,required:true},
@@ -17,5 +35,5 @@ const contentSchema =new mongoose.Schema({
 
 },{timestamps:true})
 
-const Content=mongoose.model("Content",contentSchema);
+const Content= model<IContent, ContentModel>("Content",contentSchema);
 export default Content;

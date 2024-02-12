@@ -73,7 +73,7 @@ export const forgotPassword=async(req:Request,res:Response,next:Function)=>{
             user.passwordResetToken=undefined;
             user.passwordResetTokenExpires=undefined;
             user.save({validateBeforeSave:false});
-            return next(res.status(500).send("there was an error sending password reset email.please try again later"))
+            return next(res.status(500).send("there was an error sending password reset email.please try again later"));
         }
 
     }
@@ -84,7 +84,7 @@ export const forgotPassword=async(req:Request,res:Response,next:Function)=>{
 
 export const resetPassword=async(req:Request,res:Response,next:Function)=>{
     const token=crypto.createHash("sha256").update(req.params.token).digest('hex');
-    const user=await User.findOne({passwordResetToken:token,passwordResetTokenExpires:{$gt:Date.now()}})
+    const user=await User.findOne({passwordResetToken:token,passwordResetTokenExpires:{$gt:Date.now()}});
     if(user){
         user.password=bcrypt.hashSync(req.body.password);
         user.passwordResetToken=undefined;
@@ -98,6 +98,6 @@ export const resetPassword=async(req:Request,res:Response,next:Function)=>{
             token:generateToken(user._id.toString(),user.username,user.email,user.isAdmin,user.profilePicture,user.myList),
         });
     }else{
-        return next(res.status(400).send({message:"token is unvalid or has expired"}))       
+        return next(res.status(400).send({message:"token is invalid or has expired"}))       
     }
 }   
