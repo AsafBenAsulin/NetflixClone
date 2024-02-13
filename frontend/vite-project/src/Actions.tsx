@@ -1,0 +1,3 @@
+const USER_SIGNIN = 'USER_SIGNIN';
+
+export {USER_SIGNIN}

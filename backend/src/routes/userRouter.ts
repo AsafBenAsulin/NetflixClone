@@ -1,8 +1,6 @@
 import express from "express";
-import expressAsyncHandler from 'express-async-handler'
+import expressAsyncHandler from 'express-async-handler';
 import { forgotPassword, resetPassword, signin, signup } from "../controllers/userController";
-
-
 
 
 const userRouter = express.Router();

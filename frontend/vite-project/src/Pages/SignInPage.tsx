@@ -1,14 +1,28 @@
-import { useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Title from "../Components/shared/Title";
 import { toast } from "react-toastify";
 import {getError} from "../utils" 
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { User } from "../user";
+import { USER_SIGNIN } from "../Actions";
 
 const SignInPage = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const { state:{userInfo},dispatch: ctxDispatch } = useContext(User);
+    const {search} = useLocation();
+    const redirectURL=new URLSearchParams(search);
+    const redirectValue=redirectURL.get("redirect");
+    const redirect = redirectValue ?redirectValue:"/";
+
+    useEffect(() => {
+        if(userInfo){
+            navigate(redirect)
+        }
+        }, [navigate,redirect,userInfo]);
 
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,15 +31,17 @@ const SignInPage = () => {
             const passwordValue = passwordRef.current?.value || "";
             const {data} = await axios.post("/api/v1/users/signin",{email:emailValue,password:passwordValue})
             if(data){
-                navigate("/")
+                ctxDispatch({ type: USER_SIGNIN, payload: data })
+                Cookies.set("userInfo",JSON.stringify(data));
+                navigate(redirect);
             }
         } catch (error) {
-            toast.error(getError(error))
+            toast.error(getError(error));
         }
 
         
     };
-
+    
     return (
         <div>
             <h1>Sign In</h1>
@@ -42,8 +58,9 @@ const SignInPage = () => {
                         placeholder="Password"
                         ref={passwordRef}
                     /><br/>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Login</button>
                 </form>
+                New to this site?{" "} <Link to="/signup">Click here!</Link>
             </div>
         </div>
     );
