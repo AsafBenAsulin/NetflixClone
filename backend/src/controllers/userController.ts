@@ -51,6 +51,17 @@ export const signin = async (req: Request, res: Response) => {
     res.status(401).send({ message: "invalid password/user" });
 }
 
+export const getMyList = async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const user = await User.findOne({email:email});
+    if(user){
+        res.status(200).send(user.myList);
+    }
+    else{
+        res.status(404).send({ message: "email dose not exist" });
+    }
+}
+
 export const forgotPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
     const user = await User.findOne({ email: email });
@@ -78,7 +89,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
     }
     else {
-        res.status(404).send({ message: "email is not exist" });
+        res.status(404).send({ message: "email dose not exist" });
     }
 }
 
