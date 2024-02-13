@@ -4,8 +4,8 @@ import { seedData } from "../controllers/seedData";
 
 
 
-const seedRouter=express.Router();
+const seedRouter = express.Router();
 
-seedRouter.get('/',seedData);
+seedRouter.get('/', seedData);
 
 export default seedRouter;

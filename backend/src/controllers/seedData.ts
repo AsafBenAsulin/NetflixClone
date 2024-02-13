@@ -5,11 +5,11 @@ import express, { Request, Response } from "express";
 
 
 
-export const seedData=async(req:Request,res:Response)=>{
+export const seedData = async (req: Request, res: Response) => {
     await User.deleteMany();
     await Content.deleteMany();
 
-    const contents=await Content.insertMany(data.content);
-    const users=await User.insertMany(data.users);////lllll
-    res.send({contents,users});
+    const contents = await Content.insertMany(data.content);
+    const users = await User.insertMany(data.users);////lllll
+    res.send({ contents, users });
 }
