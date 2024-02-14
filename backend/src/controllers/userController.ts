@@ -31,13 +31,12 @@ export const signup = async (req: Request, res: Response) => {
     });
 
 };
+
 export const signin = async (req: Request, res: Response) => {
     const { password: passwordFromWebsite, email } = req.body;
 
     const user = await User.findOne({ email: email });
     if (user) {
-        console.log(passwordFromWebsite.toString())
-        console.log(user.password)
         if (bcrypt.compareSync(passwordFromWebsite.toString(), user.password.toString())) {
             res.send({
                 _id: user._id,
@@ -46,18 +45,23 @@ export const signin = async (req: Request, res: Response) => {
                 token: generateToken(user._id.toString(), user.username, user.email, user.isAdmin, user.profilePicture, user.myList),
             });
             return;
+        } else {
+            res.status(401).send({ message: "Invalid password" });
+            return;
         }
+    } else {
+        res.status(401).send({ message: "User not found" });
+        return;
     }
-    res.status(401).send({ message: "invalid password/user" });
 }
 
 export const getMyList = async (req: Request, res: Response) => {
     const { email } = req.body;
-    const user = await User.findOne({email:email});
-    if(user){
+    const user = await User.findOne({ email: email });
+    if (user) {
         res.status(200).send(user.myList);
     }
-    else{
+    else {
         res.status(404).send({ message: "email dose not exist" });
     }
 }
