@@ -45,14 +45,9 @@ export const signin = async (req: Request, res: Response) => {
                 token: generateToken(user._id.toString(), user.username, user.email, user.isAdmin, user.profilePicture, user.myList),
             });
             return;
-        } else {
-            res.status(401).send({ message: "Invalid password" });
-            return;
         }
-    } else {
-        res.status(401).send({ message: "User not found" });
-        return;
     }
+    res.status(401).send({ message: "invalid password/user" });
 }
 
 export const getMyList = async (req: Request, res: Response) => {
