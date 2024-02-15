@@ -1,12 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { generateToken, sendMail } from '../utils';
-import express, { Request, Response } from "express";
-import mongoose, { ObjectId } from 'mongoose';
-import User from '../models/User';
-import jwt from 'jsonwebtoken'
-import dotenv from "dotenv";
-import { error } from 'console';
-import { BinaryLike } from 'crypto';
+import  { Request, Response } from "express";
+import {User} from '../models/User';
 import crypto from 'crypto'
 
 export const signup = async (req: Request, res: Response) => {
@@ -27,7 +22,7 @@ export const signup = async (req: Request, res: Response) => {
         email: user.email,
         isAdmin: isAdmin,
         profilePicture: 'https://i.pravatar.cc/300',
-        token: generateToken(user._id.toString(), user.username, user.email, user.isAdmin, user.profilePicture, user.myList),
+        token: generateToken(user),
     });
 
 };
@@ -42,7 +37,7 @@ export const signin = async (req: Request, res: Response) => {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                token: generateToken(user._id.toString(), user.username, user.email, user.isAdmin, user.profilePicture, user.myList),
+                token: generateToken(user),
             });
             return;
         }
@@ -105,7 +100,7 @@ export const resetPassword = async (req: Request, res: Response) => {
             _id: user._id,
             username: user.username,
             email: user.email,
-            token: generateToken(user._id.toString(), user.username, user.email, user.isAdmin, user.profilePicture, user.myList),
+            token: generateToken(user),
         });
     } else {
         res.status(400).send({ message: "token is invalid or has expired" });

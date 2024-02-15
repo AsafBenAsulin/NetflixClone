@@ -2,6 +2,7 @@ import mongoose, { Model, Schema, model } from "mongoose";
 import crypto, { BinaryLike } from 'crypto'
 
 interface IUser {
+  _id:mongoose.Schema.Types.ObjectId,
   username: String,
   email: String,
   password: String,
@@ -46,4 +47,4 @@ userSchema.method("createResetPasswordToken", function (): crypto.BinaryLike {
 
 
 const User = model<IUser, UserModel>("User", userSchema);
-export default User;
+export { User, IUser, IUserMethods };
