@@ -47,7 +47,7 @@ export const sendMail = async (options: any) => {
     }
 }
 
-export const isAuth = (req: UserRequest, res: Response, next: NextFunction) => {
+export const isAuth = (req: Request, res: Response, next: NextFunction) => {
     const auth = req.headers.authorization;
 
     if (auth) {
@@ -59,7 +59,7 @@ export const isAuth = (req: UserRequest, res: Response, next: NextFunction) => {
                     res.status(401).send({ message: err.message });
                 } else {
                     // Assuming decode has the type you expect it to have
-                    req.user=decode;
+                    (req as UserRequest).user=decode;
                     next();
                 }
             });

@@ -1,6 +1,6 @@
 import { data } from "../data";
 import Content from "../models/Content";
-import User from "../models/User";
+import {User} from "../models/User";
 import express, { Request, Response } from "express";
 
 
