@@ -1,8 +1,12 @@
+import ReactPlayer from "react-player/youtube"
 
-
-const Content = () => {
+const Content = (props:{content:any}) => {
   return (
-    <div>Content</div>
+    <div>"{props.content.title}"
+        <div style={{width:50,height:50}}>
+          <ReactPlayer style={{width:50,height:50}} url={props.content.trailer}></ReactPlayer>
+        </div>
+    </div>
   )
 }
 

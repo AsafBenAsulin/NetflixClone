@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "../ui/card"
 import {
   Carousel,
@@ -7,16 +6,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel"
-const Contents = () => {
+import Content from './Content'
+
+const Contents = (props: { contents: any[] }) => {
   return (
-    <Carousel className="w-full max-w-xs">
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
+    <Carousel style={{ width: "1000px" }}>
+      <CarouselContent className="-ml-1">
+        {Array.from({ length: props.contents.length }).map((_, index) => (
+          <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/6">
+            <div className="p-1" style={{ width: "300px", height: "300px" }}>
+              <Card >
                 <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
+                  <Content content={props.contents[index]}></Content>
                 </CardContent>
               </Card>
             </div>

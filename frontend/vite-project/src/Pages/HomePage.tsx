@@ -1,13 +1,20 @@
-import { useContext, useEffect } from 'react';
-import Title from '../Components/shared/Title'
+import { useContext, useEffect, useReducer} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { User } from '../user';
 import Cookies from "js-cookie";
-import { USER_SIGNOUT } from '../Actions';
+import { GET_FAIL, GET_REQUEST, GET_SUCCESS, USER_SIGNOUT } from '../Actions';
+import Contents from '../Components/HomePage/Contents'
+import axios from 'axios';
+import homePageReducer, { MyState } from '@/Reducers/homeReducer';
+import Title from '../Components/shared/Title'
 
-import Contents from '@/Components/HomePage/Contents';
-
+const initialState: MyState ={
+  loading:true,
+  error:'',
+  data:[]
+}
 const HomePage = () => {
+    const [state,dispatch]=useReducer(homePageReducer,initialState);
     const navigate = useNavigate();
     const {search} = useLocation();
     const { state:{userInfo},dispatch: ctxDispatch } = useContext(User);
@@ -26,13 +33,32 @@ const HomePage = () => {
             navigate(redirect)
         }
         }, [navigate,redirect,userInfo]);
-
-  return (
+      useEffect(()=>{
+      const getContents=async()=>{
+        dispatch({
+          type: GET_REQUEST,
+          payload: undefined
+        });
+      try{
+        const {data}=await axios.get("/api/v1/contents",{headers:{authorization: `Bearer ${userInfo.token}`}});
+        dispatch({type:GET_SUCCESS,payload:data});
+      }catch(error:any){
+          dispatch({type:GET_FAIL,payload:error.message});
+      }
+      };
+      getContents();
+    },[])
+return (
     <div>
         <Title title='Home - Netflix'/>
         <h1>NetFlix</h1>
         <button onClick={clickHandler}>Logout</button>
-        <Contents></Contents>
+
+        <div className='products'>
+          {state.loading ?<p>loading</p>: state.error ?<p>err</p>:(
+            <Contents contents={state.data}></Contents>
+          )}
+          </div>
     </div>
   )
 }
