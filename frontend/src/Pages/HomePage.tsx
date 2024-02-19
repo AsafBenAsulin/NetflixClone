@@ -1,14 +1,16 @@
 import { useContext, useEffect, useReducer} from 'react';
+import Title from '../Components/shared/Title'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { User } from '../user';
 import Cookies from "js-cookie";
 import { GET_FAIL, GET_REQUEST, GET_SUCCESS, USER_SIGNOUT } from '../Actions';
-import Contents from '../Components/HomePage/Contents'
-import axios from 'axios';
-import homePageReducer, { MyState } from '@/Reducers/homeReducer';
-import Title from '../Components/shared/Title'
 
-const initialState: MyState ={
+import Contents from '@/Components/HomePage/Contents';
+import axios from 'axios';
+import homePageReducer from '@/Reducers/homeReducer';
+import { IHomeState } from '@/Models/IHomeState';
+
+const initialState: IHomeState ={
   loading:true,
   error:'',
   data:[]
@@ -48,12 +50,12 @@ const HomePage = () => {
       };
       getContents();
     },[])
-return (
+  return (
     <div>
         <Title title='Home - Netflix'/>
         <h1>NetFlix</h1>
         <button onClick={clickHandler}>Logout</button>
-
+        
         <div className='products'>
           {state.loading ?<p>loading</p>: state.error ?<p>err</p>:(
             <Contents contents={state.data}></Contents>

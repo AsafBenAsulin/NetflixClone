@@ -1,21 +1,14 @@
-import { GET_FAIL, GET_REQUEST, GET_SUCCESS } from "@/Actions";
+import { IHomeState } from '@/Models/IHomeState.js';
+import {GET_REQUEST,GET_FAIL,GET_SUCCESS} from '../Actions.jsx'
+import { MyAction } from '@/Models/MyAction.js';
 
-export interface MyState {
-    loading:boolean,
-    error:string,
-    data:[]
-  }
 
-  type MyAction = {
-    type: string;
-    payload: any; 
-  };
- const initialState: MyState ={
+ const initialState: IHomeState ={
     loading:true,
     error:'',
     data:[]
  }
-const homePageReducer=(state: MyState = initialState, action: MyAction)=>{
+const homePageReducer=(state: IHomeState = initialState, action: MyAction)=>{
     switch(action.type){
 
         case GET_REQUEST:{

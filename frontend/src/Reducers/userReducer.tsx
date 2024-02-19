@@ -1,7 +1,8 @@
 import { USER_SIGNIN, USER_SIGNOUT } from "../Actions";
+import { MyAction } from "@/Models/MyAction";
 
 
-const userReducer = (state: any, action: any) => {
+const userReducer = (state:any, action:MyAction) => {
     const type = action.type;
     const payload = action.payload;
     switch (type) {

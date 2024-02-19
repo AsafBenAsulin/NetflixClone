@@ -3,9 +3,10 @@ import userReducer from "./Reducers/userReducer";
 import Cookies from "js-cookie"
 
 export const User = createContext<any>(null);
+const userInfoString: string | undefined = Cookies.get('userInfo');
 
 const initialState = {
-    userInfo : Cookies.get('userInfo'),
+    userInfo:userInfoString ? JSON.parse(userInfoString) : null
 
 }
 
