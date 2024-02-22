@@ -1,16 +1,11 @@
-import { useContext, useEffect, useReducer, useState} from 'react';
+import { useEffect, useReducer} from 'react';
 import Title from '../Components/shared/Title'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { User } from '../user';
-import Cookies from "js-cookie";
-import { GET_FAIL, GET_REQUEST, GET_SUCCESS, USER_SIGNOUT } from '../Actions';
-
-import Contents from '@/Components/HomePage/ContentCarousel';
-import axios from 'axios';
+import { GET_FAIL, GET_REQUEST, GET_SUCCESS } from '../Actions';
 import homePageReducer from '@/Reducers/homeReducer';
 import { IState } from '@/Models/IState';
 import ContentSection from '@/Components/shared/ContentSection';
 import { getData } from '@/utils';
+import CheckUser from '@/Components/shared/CheckUser';
 
 
 const initialState: IState ={
@@ -18,27 +13,10 @@ const initialState: IState ={
   error:'',
   data:[]
 }
+
 const HomePage = () => {
     const [state,dispatch]=useReducer(homePageReducer,initialState);
-    const navigate = useNavigate();
-    const {search} = useLocation();
-    const { state:{userInfo},dispatch: ctxDispatch } = useContext(User);
-    const redirectURL=new URLSearchParams(search);
-    const redirectValue=redirectURL.get("redirect");
-    const redirect = redirectValue ?redirectValue:"/signin";
 
-
-    const clickHandler =() =>{
-      Cookies.remove("userInfo");
-      ctxDispatch({ type: USER_SIGNOUT})
-      navigate("/");
-    }
-
-    useEffect(() => {
-        if(!userInfo){
-            navigate(redirect)
-        }
-        }, [navigate,redirect,userInfo]);
       useEffect(()=>{
       const getContents=async()=>{
         dispatch({
@@ -58,9 +36,8 @@ const HomePage = () => {
     },[])
   return (
     <div>
+      <CheckUser/>
         <Title title='Home - Netflix'/>
-        <h1>NetFlix</h1>
-        <button onClick={clickHandler}>Logout</button>
 
         <div className='products'>
           {state.loading ?<p>loading</p>: state.error ?<p>{state.error}</p>:(

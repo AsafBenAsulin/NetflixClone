@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HomePage from './Pages/HomePage';
 import SignInPage from './Pages/SignInPage';
 import SignUpPage from './Pages/SignUpPage';
+import NavBar from './Components/shared/NavBar';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer position='bottom-center' limit={1} />
+      <NavBar/>
       <main>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
