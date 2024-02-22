@@ -65,8 +65,8 @@ const HomePage = () => {
         <div className='products'>
           {state.loading ?<p>loading</p>: state.error ?<p>{state.error}</p>:(
             <div>
-              {state.data.map((listName:string) => (
-                  <ContentSection genre={listName} movieName={undefined} seriesName={undefined} url='' />
+              {state.data.map((listName:string,index:number) => (
+                  <ContentSection key={index} genre={listName} movieName={undefined} seriesName={undefined} url='' />
 
               ))}
                 <ContentSection genre={undefined} movieName='Top picks for Movie' seriesName={undefined} url='movies/'  />

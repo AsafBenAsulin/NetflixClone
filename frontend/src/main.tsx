@@ -6,7 +6,10 @@ import { HelmetProvider } from 'react-helmet-async'
 import { UserProvider } from './user.tsx'
 
 
-axios.defaults.baseURL = 'http://localhost:3000'
+
+const baseURL = import.meta.env.VITE_BASEURL;
+
+axios.defaults.baseURL = baseURL || 'http://localhost:3000';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
