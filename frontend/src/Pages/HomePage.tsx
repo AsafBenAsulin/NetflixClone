@@ -5,13 +5,15 @@ import { User } from '../user';
 import Cookies from "js-cookie";
 import { GET_FAIL, GET_REQUEST, GET_SUCCESS, USER_SIGNOUT } from '../Actions';
 
-import Contents from '@/Components/HomePage/Contents';
+import Contents from '@/Components/HomePage/ContentCarousel';
 import axios from 'axios';
 import homePageReducer from '@/Reducers/homeReducer';
-import { IHomeState } from '@/Models/IHomeState';
-import { IContent } from '@/Models/IContent';
+import { IState } from '@/Models/IState';
+import ContentSection from '@/Components/shared/ContentSection';
+import { getData } from '@/utils';
 
-const initialState: IHomeState ={
+
+const initialState: IState ={
   loading:true,
   error:'',
   data:[]
@@ -24,7 +26,7 @@ const HomePage = () => {
     const redirectURL=new URLSearchParams(search);
     const redirectValue=redirectURL.get("redirect");
     const redirect = redirectValue ?redirectValue:"/signin";
-    const [genres,setGenres] = useState([])
+
 
     const clickHandler =() =>{
       Cookies.remove("userInfo");
@@ -44,9 +46,10 @@ const HomePage = () => {
           payload: undefined
         });
       try{
-        const {data}=await axios.get("/api/v1/contents",{headers:{authorization: `Bearer ${userInfo.token}`}});
-        setGenres((await axios.get("/api/v1/seed/genres")).data.genres);
+     
+        const data=await getData("/api/v1/seed/genres");
         dispatch({type:GET_SUCCESS,payload:data});
+        
       }catch(error:any){
           dispatch({type:GET_FAIL,payload:error.message});
       }
@@ -58,20 +61,23 @@ const HomePage = () => {
         <Title title='Home - Netflix'/>
         <h1>NetFlix</h1>
         <button onClick={clickHandler}>Logout</button>
-        
+
         <div className='products'>
-          {state.loading ?<p>loading</p>: state.error ?<p>err</p>:(
-            <Contents contents={state.data}></Contents>
+          {state.loading ?<p>loading</p>: state.error ?<p>{state.error}</p>:(
+            <div>
+              {state.data.map((listName:string) => (
+                  <ContentSection genre={listName} movieName={undefined} seriesName={undefined} url='' />
+
+              ))}
+                <ContentSection genre={undefined} movieName='ToppicksforMovie' seriesName={undefined} url='movies/'  />
+                <ContentSection genre={undefined} movieName={undefined} seriesName='TopSeries' url='series/'/>
+            </div>
           )}
+          
           </div>
-          <ul>
-            {genres.map((genre: string) => (
-              <div>
-                <h1>{genre}</h1>
-                <Contents contents={state.data.filter((c:IContent)=>c.genre==genre)}></Contents>
-              </div>
-        ))}
-      </ul>
+
+
+
     </div>
   )
 }
