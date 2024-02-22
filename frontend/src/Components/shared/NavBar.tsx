@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Cookies from "js-cookie";
 import { USER_SIGNOUT } from '@/Actions';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from '@/user';
+import '@fortawesome/fontawesome-free/css/all.css';
+
 
 const NavBar = () => {
     const navigate = useNavigate();
-    const { dispatch: ctxDispatch } = useContext(User);
-    const [isTop, setIsTop] = useState(true);
+    const { state: { userInfo }, dispatch: ctxDispatch } = useContext(User);
 
     const clickHandler = () => {
         Cookies.remove("userInfo");
@@ -15,41 +16,32 @@ const NavBar = () => {
         navigate("/");
     }
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = window.pageYOffset;
-
-            // Check if scrollTop is less than a certain value to determine if the user has scrolled down
-            if (scrollTop < 100) { // Adjust 100 to a suitable value depending on when you want the transparency to kick in
-                setIsTop(true);
-            } else {
-                setIsTop(false);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
 
     return (
-        <div className={`fixed top-0 left-0 right-0 z-10 ${isTop ? 'bg-transparent' : 'bg-gray-900 opacity-90'} text-white`}>
-            <div className="bg-black p-2">
-                <div className="container mx-auto flex justify-between items-center">
-                    <img src="/Netflix-Logo.wine.svg" alt="Netflix Logo" className="w-22 mr-2" />
-                    <ul className="flex space-x-6">
-                        <li><a href="#" className="hover:text-red-600">Home</a></li>
-                        <li><a href="#" className="hover:text-red-600">TV Shows</a></li>
-                        <li><a href="#" className="hover:text-red-600">Movies</a></li>
-                        <li><a href="#" className="hover:text-red-600">New & Popular</a></li>
-                        <li><a href="#" className="hover:text-red-600 color:text-white">My List</a></li>
-                        <li><button onClick={clickHandler} className="logout-btn">Logout</button></li>
-                    </ul>
+        <div className="p-2 bg-gradient-to-b from-black to-transparent fixed top-0 left-0 right-0 z-10 text-white">
+            <div className="container mx-auto flex justify-between items-center">
+                <div className='flex justify-between-left items-center space-x-6'>
+                    <img src="\assets\Netflix-Logo.wine.svg" alt="Netflix Logo" className="w-22 mr-2" />
+                    <Link className="hover:text-gray-500" to={'/'} >Home</Link>
+                    <Link className="hover:text-gray-500" to={'/series'} >TV Shows</Link>
+                    <Link className="hover:text-gray-500" to={'/movies'} >Movies</Link>
+                    <a href="#" className="hover:text-gray-500">My List</a>
+                </div>
+                <div className='flex justify-between-right items-center space-x-6'>
+                    <Link to='#' className='nav-link'>
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    </Link>
+                    <Link to='#' className='nav-link'>
+                        <i className="fa-regular fa-bell"></i>
+                    </Link>
+                    <Link onClick={clickHandler} className="dropdown-item hover:text-gray-500" to={''}>
+                        {/* Sign out */}
+                        <img src={userInfo.profilePicture} alt="Profile Picture" className="w-8 rounded mr-2 " />
+                    </Link>
                 </div>
             </div>
         </div>
+
     );
 }
 

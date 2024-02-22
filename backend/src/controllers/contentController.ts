@@ -68,6 +68,7 @@ export const getContentsByMoviesName = async (req: Request, res: Response) => {
 export const getContentsBySeriesName = async (req: Request, res: Response) => {
     try {
         const name = req.params.name;
+        
 
         // Use findOne to directly get the document, no need to await
         const contentListId = await ContentListBySeriesName.findOne({ listName:name }).populate('contentList');

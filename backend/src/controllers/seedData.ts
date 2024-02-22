@@ -13,6 +13,8 @@ export const seedData = async (req: Request, res: Response) => {
         await User.deleteMany();
         await Content.deleteMany();
         await ContentListByGenre.deleteMany();
+        await ContentListByMovieName.deleteMany();
+        await ContentListBySeriesName.deleteMany();
 
         const contents = await Content.insertMany(data.content);
         const users = await User.insertMany(data.users);
@@ -57,4 +59,10 @@ const getListSeriesNames= async () => {
 }
 export const getGenresToClient= async(req:Request,res:Response) => {
     res.send(genres);
+}
+export const getMovieNamesToClient= async(req:Request,res:Response) => {
+    res.send(listMovieNames);
+}
+export const getSeriesNamesToClient= async(req:Request,res:Response) => {
+    res.send(listSeriesNames);
 }

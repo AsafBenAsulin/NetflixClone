@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel"
-import Content from './Content'
+import ContentCard from "./ContentCard"
 const Contents = (props:{contents:[IContent]}) => {
   return (
     <Carousel style={{width:"1000px" }}>
@@ -18,7 +18,7 @@ const Contents = (props:{contents:[IContent]}) => {
             <div className="p-1"  style={{width:"300px",height:"300px"}}>
               <Card >
                 <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <Content content={props.contents[index]}></Content>
+                  <ContentCard content={props.contents[index]}></ContentCard>
                 </CardContent>
               </Card>
             </div>

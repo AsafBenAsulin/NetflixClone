@@ -22,4 +22,4 @@ const CheckUser=()=> {
   )
 }
 
-export default CheckUser
+export default CheckUser

@@ -6,10 +6,11 @@ import {  useEffect, useReducer } from 'react';
 import { IState } from '@/Models/IState';
 import ContentsCarousel from '../HomePage/ContentCarousel';
 import { getData } from '@/utils';
+import { IContent } from '@/Models/IContent';
 
 
 
-const initialState: IState ={
+const initialState: IState<IContent> ={
   loading:true,
   error:'',
   data:[]
@@ -35,7 +36,7 @@ const ContentSection=(props:{genre:string|undefined,movieName:string|undefined,s
   },[])
   return (
     <div>
-        <h1>{props.genre ||props.movieName||props.seriesName}</h1>
+        <h1>{props.genre||props.movieName||props.seriesName}</h1>
         <ContentsCarousel contents={state.data}/>
     </div>
   )
