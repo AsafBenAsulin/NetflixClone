@@ -9,6 +9,7 @@ const NavBar = () => {
     const navigate = useNavigate();
     const { state: { userInfo }, dispatch: ctxDispatch } = useContext(User);
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [navImage, setNavImage] = useState(" ")
 
     const handleScroll = () => {
         const position = window.scrollY;
@@ -16,6 +17,8 @@ const NavBar = () => {
     };
 
     useEffect(() => {
+        if (userInfo && userInfo.profilePicture)
+            setNavImage(userInfo.profilePicture);
         window.addEventListener('scroll', handleScroll, { passive: true });
 
         return () => {
@@ -35,7 +38,7 @@ const NavBar = () => {
         <div className={`p-2 fixed top-0 left-0 right-0 z-10 text-white transition-all duration-500 ${navbarClass}`}>
             <div className="container mx-auto flex justify-between items-center">
                 <div className='flex justify-between-left items-center space-x-6'>
-                    <img src="\assets\Netflix-Logo.wine.svg" alt="Netflix Logo" className="w-22 mr-2" />
+                    <img src="\assets\Netflix-Logo.wine.svg" alt="Netflix Logo" className="w-17" />
                     <Link className="hover:text-gray-500" to={'/'} >Home</Link>
                     <Link className="hover:text-gray-500" to={'/series'} >TV Shows</Link>
                     <Link className="hover:text-gray-500" to={'/movies'} >Movies</Link>
@@ -50,7 +53,7 @@ const NavBar = () => {
                     </Link>
                     <Link onClick={clickHandler} className="dropdown-item hover:text-gray-500" to={''}>
                         {/* Sign out */}
-                        <img src={userInfo.profilePicture} alt="Profile Picture" className="w-8 rounded mr-2 " />
+                        <img src={navImage} alt="Profile Picture" className="w-8 rounded mr-2 " />
                     </Link>
                 </div>
             </div>
