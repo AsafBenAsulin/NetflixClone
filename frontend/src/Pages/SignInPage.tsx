@@ -49,13 +49,13 @@ const SignInPage = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen bg-cover text-white" style={{ backgroundImage: `url('../assets/netflix-bg.jpg')` }}>
+        <div className="flex justify-center items-center h-screen bg-cover text-white md:flex-col" style={{ backgroundImage: `url('../assets/netflix-bg.jpg')` }}>
             <Title title="Sign In" />
-            <div className="absolute top-0 left-0 p-4">
-                <img src="\assets\Netflix-Logo-large.svg" alt="Netflix Logo" className="w-30 mr-2" />
+            <div className="absolute invisible top-0 left-0 p-4 md:visible">
+                <img src="\assets\Netflix-Logo-large.svg" alt="Netflix Logo" className="w-50 md:w-auto" />
             </div>
-            <div className="w-full max-w-md px-6 py-12 bg-black bg-opacity-70 rounded-lg">
-                <h1 className="text-6xl mb-10">Sign in</h1>
+            <div className="w-full max-w-md px-3 py-3 bg-black bg-opacity-70 rounded-lg md:px-6 md:py-6">
+                <h1 className="text-2xl mb-10 md:text-6xl">Sign in</h1>
                 <form onSubmit={(e) => loginHandler(e, "submit")} className="mb-8">
                     <input
                         type="email"
