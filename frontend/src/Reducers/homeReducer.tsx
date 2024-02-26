@@ -1,4 +1,4 @@
-import {GET_REQUEST,GET_FAIL,GET_SUCCESS} from '../Actions.jsx'
+import {GET_REQUEST,GET_FAIL,GET_SUCCESS} from "../Helpers/Actions";
 import { MyAction } from '@/Models/MyAction.js';
 import { IHomeState } from '@/Models/IHomeState.js';
 

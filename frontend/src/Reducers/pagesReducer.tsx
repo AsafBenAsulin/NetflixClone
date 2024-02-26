@@ -1,14 +1,14 @@
-import {GET_REQUEST,GET_FAIL,GET_SUCCESS} from '../Actions.js'
-import { MyAction } from '@/Models/MyAction.js';
-import { IState } from '@/Models/IState.js';
+import {GET_REQUEST,GET_FAIL,GET_SUCCESS} from '../Helpers/Actions.js'
+import { MyAction } from '@/Models/Action/MyAction.js';
+import { IStateArr } from '@/Models/States/IStateArr.js';
 
 
- const initialState: IState<String> ={
+ const initialState: IStateArr<String> ={
     loading:true,
     error:'',
     data:[]
  }
-function pagesReducer(state: IState<String> = initialState, action: MyAction) {
+function pagesReducer(state: IStateArr<String> = initialState, action: MyAction) {
     switch (action.type) {
 
         case GET_REQUEST: {

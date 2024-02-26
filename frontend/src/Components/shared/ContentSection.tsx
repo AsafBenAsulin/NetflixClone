@@ -1,16 +1,16 @@
 
 import contentSectionReducer from '@/Reducers/contentSectionReducer';
-import { GET_FAIL, GET_REQUEST, GET_SUCCESS} from '../../Actions';
+import { GET_FAIL, GET_REQUEST, GET_SUCCESS} from '../../Helpers/Actions';
 
 import {  useEffect, useReducer } from 'react';
-import { IState } from '@/Models/IState';
+import { IStateArr } from '@/Models/States/IStateArr';
 import ContentsCarousel from '../HomePage/ContentCarousel';
-import { getData } from '@/utils';
+import { getData } from '@/Helpers/httpRequest';
 import { IContent } from '@/Models/IContent';
 
 
 
-const initialState: IState<IContent> ={
+const initialState: IStateArr<IContent> ={
   loading:true,
   error:'',
   data:[]

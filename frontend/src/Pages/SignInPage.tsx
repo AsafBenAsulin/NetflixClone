@@ -1,17 +1,18 @@
 import { useContext, useEffect, useRef } from "react";
 import Title from "../Components/shared/Title";
 import { toast } from "react-toastify";
-import { getError, postData } from "../utils";
+import { getError} from "../Helpers/utils";
+import {postData} from "../Helpers/httpRequest"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { User } from "../user";
-import { USER_SIGNIN } from "../Actions";
+import {User} from "../Context/user"
+import { USER_SIGNIN } from "../Helpers/Actions"
 
 const SignInPage = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
-    const { state: { userInfo }, dispatch: ctxDispatch } = useContext(User);
+    const { state:{userInfo},dispatch: ctxDispatch } = useContext(User);
     const { search } = useLocation();
     const redirectURL = new URLSearchParams(search);
     const redirectValue = redirectURL.get("redirect");
@@ -71,7 +72,7 @@ const SignInPage = () => {
                     />
                     <button type="submit" className="w-full py-3 px-4 bg-red-600 text-white rounded-md hover:bg-red-500 focus:outline-none mt-8 focus:bg-red-600">Login</button>
                 </form>
-                <p className="text-gray-400 ">New to this site? <Link to="/signup" className="text-white hover:text-blue-400">Create an account!</Link></p>
+                <p className="text-gray-400 ">New to Netflix? <Link to="/signup" className="text-white hover:underline">Sign up now.</Link></p>
                 <div className="container border border-white flex flex-col items-center justify-center mt-5">
                     <p className="text-gray-400 mb-3">Welcome to my Netflix clone project. For your convenience, you can use this button to log in</p>
                     <p className="text-white">Email: admin@example.com</p>
