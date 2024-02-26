@@ -51,7 +51,7 @@ const SignUpPage = () => {
         <div className="flex justify-center items-center h-screen bg-cover text-white md:flex-col" style={{ backgroundImage: `url('../assets/netflix-bg.jpg')` }}>
             <Title title="Sign Up" />
             <div className="absolute invisible top-0 left-0 p-4 md:visible">
-                <img src="\assets\Netflix-Logo-large.svg" alt="Netflix Logo" className="w-10 md:w-auto" />
+                <img src="\assets\Netflix-Logo.wine.svg" alt="Netflix Logo" className="w-10 md:w-auto" />
             </div>
             <div className="w-full max-w-md px-3 py-3 bg-black bg-opacity-70 rounded-lg md:px-6 md:py-6">
                 <h1 className="text-2xl mb-10 md:text-6xl">Sign Up</h1>
