@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../Components/shared/Title";
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { User } from "../Context/user";
 import { USER_SIGNIN } from "../Helpers/Actions";
 import Cookies from "js-cookie";
@@ -11,9 +11,11 @@ import { getError } from "../Helpers/utils";
 const SignUpPage = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const confirmPasswordRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const { state: { userInfo }, dispatch: ctxDispatch } = useContext(User);
+    const [error, setError] = useState<string>("");
 
     useEffect(() => {
         if (userInfo) {
@@ -26,7 +28,14 @@ const SignUpPage = () => {
         try {
             const emailValue = emailRef.current?.value || "";
             const passwordValue = passwordRef.current?.value || "";
+            const confirmPasswordValue = confirmPasswordRef.current?.value || "";
             const usernameValue = usernameRef.current?.value || "";
+
+             if (passwordValue !== confirmPasswordValue) {
+                setError("Passwords do not match");
+                return;
+            }
+
             const data = await postData("/api/v1/users/signup", { email: emailValue, password: passwordValue, username: usernameValue, isAdmin: false });
             if (data) {
                 ctxDispatch({ type: USER_SIGNIN, payload: data });
@@ -65,6 +74,13 @@ const SignUpPage = () => {
                         ref={passwordRef}
                         className="block w-full py-3 px-4 mb-4 bg-black border border-gray-600 rounded-md text-white focus:outline-none focus:border-gray-400"
                     />
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        ref={confirmPasswordRef}
+                        className="block w-full py-3 px-4 mb-4 bg-black border border-gray-600 rounded-md text-white focus:outline-none focus:border-gray-400"
+                    />
+                    {error && <span className="text-red-500">{error}</span>}
                     <button type="submit" className="w-full py-3 px-4 bg-red-600 text-white rounded-md hover:bg-red-500 focus:outline-none mt-8 focus:bg-red-600">Sign Up</button>
                 </form>
                 <p className="text-gray-400 ">Already have an account? <Link to="/signin" className="text-white hover:underline">Sign in.</Link></p>
