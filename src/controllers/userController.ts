@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs'
 import { generateToken, sendMail } from '../utils';
-import  { Request, Response } from "express";
-import {User} from '../models/User';
+import { Request, Response } from "express";
+import { User } from '../models/User';
 import crypto from 'crypto'
 
 export const signup = async (req: Request, res: Response) => {
     const { username, email, password, isAdmin } = req.body;
     const userIsExist = await User.findOne({ email: email });
-    if(userIsExist){
+    if (userIsExist) {
         res.status(401).send({ message: "this email already exist" });
     }
     const newUser = new User({
@@ -39,7 +39,7 @@ export const signin = async (req: Request, res: Response) => {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                profilePicture:user.profilePicture,
+                profilePicture: user.profilePicture,
                 token: generateToken(user),
             });
             return;
@@ -108,4 +108,14 @@ export const resetPassword = async (req: Request, res: Response) => {
     } else {
         res.status(400).send({ message: "token is invalid or has expired" });
     }
-}   
+}
+
+export const checkEmail = async (req: Request, res: Response) => {
+    
+    const { email } = req.body;
+    const userIsExist = await User.findOne({ email: email });
+    if (userIsExist) {
+         res.status(401).send({ message: "this email already exists" });
+    }
+     res.status(200).send({ message: "email is available" });
+}
