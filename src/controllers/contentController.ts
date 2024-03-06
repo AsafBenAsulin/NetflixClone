@@ -1,5 +1,5 @@
 import Content from "../models/Content";
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import ContentListByGenre from "../models/ContentListByGenre";
 import ContentListByMovieName from "../models/ContentListByMovieName";
 import ContentListBySeriesName from "../models/ContentListBySeriesName";
@@ -27,6 +27,13 @@ export const getContentById = async (req: Request, res: Response) => {
     const id=req.params.id;
     const content= await Content.findById(id)
     res.send(content);
+
+};
+export const getContentsByTitle = async (req: Request, res: Response) => {
+    const titleFromParams=req.params.title;
+    const contents = await Content.find({ title: { $regex: new RegExp(titleFromParams, 'i') } })
+    .limit(12)  // Limit the results to the first 12
+    res.send(contents);
 
 };
 // export const getContentToBillboardByType = async (req: Request, res: Response) => {
