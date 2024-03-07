@@ -10,11 +10,7 @@ dotenv.config();
 
 const app: Express = express();
 
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://netflix-frontend-lake.vercel.app/'],
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());//parses JSONs
 app.use(express.urlencoded({ extended: false }));//this is common practice for urlencoded
 
