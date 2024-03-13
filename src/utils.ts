@@ -40,7 +40,7 @@ export const sendMail = async (options: any) => {
             text: options.message
         }
         console.log("before transport");
-        transport.sendMail(mail, (error, info) => {
+        await transport.sendMail(mail, (error, info) => {
             if (error) {
                 console.log(error.message)
                 console.log("error")
