@@ -65,6 +65,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
     const { email } = req.body;
     const user = await User.findOne({ email: email });
+    console.log("start");
     if (user) {
         const resetToken = user.createResetPasswordToken();
         await user.save({ validateBeforeSave: false });
@@ -91,6 +92,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
     else {
         res.status(404).send({ message: "email dose not exist" });
     }
+    console.log("end");
 }
 
 export const resetPassword = async (req: Request, res: Response) => {
