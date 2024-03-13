@@ -17,6 +17,7 @@ export const generateToken = (user:IUser) => {
 }
 export const sendMail = async (options: any) => {
     dotenv.config();
+    console.log("start");
     if (process.env.EmailUserName && process.env.EmailPassword) {
         const user = process.env.EmailUserName.toString();
         const pass = process.env.EmailPassword.toString();
@@ -40,9 +41,11 @@ export const sendMail = async (options: any) => {
         transport.sendMail(mail, (error, info) => {
             if (error) {
                 console.log(error.message)
+                console.log("error")
             } else {
                 console.log("success")
             }
+            console.log("end")
         })
     }
 }

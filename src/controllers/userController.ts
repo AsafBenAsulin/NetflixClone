@@ -66,7 +66,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
     const user = await User.findOne({ email: email });
     if (user) {
-        console.log("start");
         const resetToken = user.createResetPasswordToken();
         await user.save({ validateBeforeSave: false });
         const resetUrl = `${req.get("referer")}reset/${resetToken}`;
@@ -78,7 +77,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
                 subject: "password change request received",
                 message: message
             })
-            console.log("end");
             res.status(200).send({
                 status: 'success',
                 message: "password reset link send to the user email"
