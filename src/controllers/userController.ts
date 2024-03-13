@@ -70,7 +70,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
         await user.save({ validateBeforeSave: false });
         const resetUrl = `${req.get("referer")}reset/${resetToken}`;
         const message = `we received a password request.please use the below link for reset your password.\n\n\ ${resetUrl} \n\n this reset password link will be valid only for 10 minutes`
-        console.log(message);
         try {
             await sendMail({
                 email: user.email,

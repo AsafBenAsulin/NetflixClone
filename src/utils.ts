@@ -17,9 +17,7 @@ export const generateToken = (user: IUser) => {
 }
 export const sendMail = async (options: any) => {
     dotenv.config();
-    console.log("start");
     if (process.env.EmailUserName && process.env.EmailPassword) {
-        console.log("start if");
         const user = process.env.EmailUserName.toString();
         const pass = process.env.EmailPassword.toString();
         const transport = nodemailer.createTransport({
@@ -39,17 +37,14 @@ export const sendMail = async (options: any) => {
             subject: options.subject,
             text: options.message
         }
-        console.log("before transport");
         await new Promise((resolve, reject) =>{
             transport.sendMail(mail, (error, info) => {
                 if (error) {
                     console.log(error.message)
-                    console.log("error")
                     reject(error)
                 } else {
                     console.log("success")
                 }
-                console.log("end");
                 resolve(info);
             })})
     }
