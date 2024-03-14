@@ -9,11 +9,11 @@ import UserRequest from './UserRequest';
 
 
 
-export const generateToken = (user: IUser) => {
+export const generateToken = (user:IUser) => {
     if (!process.env.JWT_PW) {
         throw new Error('MONGO_CONNECTION is not defined');
     }
-    return jwt.sign({ _id: user._id, username: user.username, email: user.email, isAdmin: user.isAdmin, profilePicture: user.profilePicture }, process.env.JWT_PW, { expiresIn: '7d' })
+    return jwt.sign({ _id: user._id, username: user.username, email: user.email, isAdmin:user.isAdmin, profilePicture:user.profilePicture }, process.env.JWT_PW, { expiresIn: '7d' })
 }
 export const sendMail = async (options: any) => {
     dotenv.config();
@@ -37,7 +37,7 @@ export const sendMail = async (options: any) => {
             subject: options.subject,
             text: options.message
         }
-        await new Promise((resolve, reject) =>{
+        await new Promise((resolve, reject) => {
             transport.sendMail(mail, (error, info) => {
                 if (error) {
                     console.log(error.message)
@@ -45,11 +45,11 @@ export const sendMail = async (options: any) => {
                 } else {
                     console.log("success")
                 }
-                resolve(info);
-            })})
+                resolve(info)
+            })
+    })
     }
 }
-
 
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
     const auth = req.headers.authorization;
@@ -57,12 +57,12 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
         if (req.headers.authorization) {
             const token = req.headers.authorization.split(" ")[1];
 
-            jwt.verify(token, process.env.JWT_PW as string, (err: any, decode: any) => {
+            jwt.verify(token, process.env.JWT_PW as string, (err:any, decode:any) => {
                 if (err) {
                     res.status(401).send({ message: err.message });
                 } else {
                     // Assuming decode has the type you expect it to have
-                    (req as UserRequest).user = decode;
+                    (req as UserRequest).user=decode;
                     next();
                 }
             });
@@ -71,4 +71,12 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
         res.status(401).send({ message: "No token" });
     }
 }
-
+  
+export const isAdmin = (req:Request, res: Response, next: NextFunction) => {
+    const user=(req as UserRequest).user
+    if (!user || !user.isAdmin) {
+      return res.status(401).send({ message: 'Unauthorized: Not an administrator' });
+    }
+    next();
+  };
+  

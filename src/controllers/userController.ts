@@ -62,7 +62,6 @@ export const getMyList = async (req: Request, res: Response) => {
 }
 
 export const forgotPassword = async (req: Request, res: Response) => {
-
     const { email } = req.body;
     const user = await User.findOne({ email: email });
     if (user) {
@@ -157,3 +156,4 @@ export const removeMovieToMyList=async (req: Request, res: Response) => {
         res.status(401).send({ message: "this content does not exist" });
     }
 }
+
