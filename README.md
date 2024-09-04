@@ -16,3 +16,5 @@ MONGO_CONNECTION = mongodb+srv://asafbenasulin:devdev@cluster0.6l5ljl2.mongodb.n
 
 if you want to change the database to your own use the route /api/v1/seed
 to change the email for sending emails use this guid: https://www.youtube.com/watch?v=cqdAS49RthQ
+
+run with npm run dev
